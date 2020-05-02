@@ -70,3 +70,12 @@ resultCart <- table(p_test$Attrition, PredictionCart)
 #CART model accuracy
 result2 <- (resultCart[1]+resultCart[4])/(nrow(p_test))
 
+##Ensemble model
+predictionEnsemble <- data.frame(predictionCart= PredictionCart, predictionNN = predictionNN)
+
+predictionEnsemble$predictionsEnsemble <- as.factor(ifelse(predictionEnsemble$predictionCart=='Yes' | predictionEnsemble$predictionNN=='Yes','Yes','No'))
+
+resultEnsemble <- table(p_test$Attrition, predictionEnsemble$predictionsEnsemble)
+
+accuracyEnsemble <- (resultEnsemble[1]+resultEnsemble[4])/(nrow(p_test))
+
