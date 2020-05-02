@@ -49,3 +49,24 @@ table(predictionNN)
 result <- table(p_test$Attrition, predictionNN)
 result
 accuracyNN <- (result[1]+result[4])/(nrow(p_test))
+
+
+#CART
+library(rpart)
+library(rattle)
+
+r.ctrl <- rpart.control(minsplit = 120, minbucket = 12, cp=0, xval=10)
+modelCart <- rpart(p_train$Attrition~., data = p_train,control = r.ctrl, method = "class")
+prp(modelCart)
+
+PredictionCart <- predict(modelCart, newdata=p_test, type="class")
+
+
+#CART Accuracy
+#Confusion matrix 
+resultCart <- table(p_test$Attrition, PredictionCart)
+
+
+#CART model accuracy
+result2 <- (resultCart[1]+resultCart[4])/(nrow(p_test))
+
